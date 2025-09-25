@@ -9,20 +9,26 @@ import javax.swing.JButton;
  * @author youcefhmd
  */
 public final class Calculator extends javax.swing.JFrame {
-
+private static Calculator instance = null;
+    
     private String currentOperand;
     private String previousOperand;
     private String operation;
 
     private int x, y;
 
-    public Calculator() {
+    private Calculator() {
         initComponents();
         getContentPane().setSize(400, 700);
         this.clear();
         this.addEvents();
     }
-
+public static Calculator getInstance() {
+        if (instance == null) {
+            instance = new Calculator();
+        }
+        return instance;
+    }
     public void addEvents() {
         JButton[] btns = {
             btn0, btn1, btn2, btn3, btn4,

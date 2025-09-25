@@ -8,7 +8,9 @@ package Calc;
 public class App {
 
     public static void main(String[] args) {
-        new Calculator().setVisible(true);
+        Calculator calc = Calculator.getInstance();
+        calc.setVisible(true);
+
     }
 
 }
