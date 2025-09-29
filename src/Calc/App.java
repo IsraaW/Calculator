@@ -14,8 +14,7 @@ public class App {
             // Get the singleton Calculator instance
             Calculator calculator = Calculator.getInstance();
             
-            // Create UI and connect it to the calculator
-            CalculatorUI ui = new CalculatorUI(calculator);
+            CalculatorUI ui = CalculatorUI.getInstance(calculator);
             
             // Show the calculator window
             ui.showCalculator();

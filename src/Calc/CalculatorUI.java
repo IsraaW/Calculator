@@ -5,9 +5,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-
+/**
+ * CalculatorUI - Handles all UI concerns
+ * Delegates business logic to Calculator
+ */
 public class CalculatorUI extends JFrame {
     private final Calculator calculator;
+    private static volatile CalculatorUI instance;
+    
     
     // Display components
     private JTextField currentDisplay;
@@ -24,10 +29,21 @@ public class CalculatorUI extends JFrame {
     private final Color FG_WHITE = Color.WHITE;
     private final Color FG_GRAY = new Color(203, 198, 213);
     
-    public CalculatorUI(Calculator calculator) {
+     private CalculatorUI(Calculator calculator) {
         this.calculator = calculator;
         calculator.setUI(this);
         initializeUI();
+    }
+    
+       public static CalculatorUI getInstance(Calculator calculator) {
+        if (instance == null) {
+            synchronized (CalculatorUI.class) {
+                if (instance == null) {
+                    instance = new CalculatorUI(calculator);
+                }
+            }
+        }
+        return instance;
     }
     
     private void initializeUI() {
