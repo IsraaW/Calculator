@@ -1,6 +1,5 @@
 package Calc;
 
-<<<<<<< HEAD
 import java.awt.Color;
 import java.awt.event.*;
 import javax.swing.JButton;
@@ -73,170 +72,95 @@ public final class Calculator extends javax.swing.JFrame {
                 }
             });
         }
-=======
-/**
- * Calculator - Singleton that handles all calculation logic
- * Separate from UI concerns
- */
-public class Calculator {
-    // Singleton instance
-    private static volatile Calculator instance;
-    
-    // Calculation state
-    private String currentOperand;
-    private String previousOperand;
-    private String operation;
-    
-    // Observer for UI updates
-    private CalculatorUI ui;
-    
-    // Private constructor for Singleton
-    private Calculator() {
-        clear();
     }
-    
-    // Singleton getInstance with double-checked locking
-    public static Calculator getInstance() {
-        if (instance == null) {
-            synchronized (Calculator.class) {
-                if (instance == null) {
-                    instance = new Calculator();
-                }
-            }
-        }
-        return instance;
-    }
-    
-    // Register UI for updates (Observer pattern)
-    public void setUI(CalculatorUI ui) {
-        this.ui = ui;
-        notifyUI();
->>>>>>> 88c97ac160273971bf3cc07d8274c910363861cf
-    }
-    
-    // Core calculation methods
+
     public void clear() {
-        currentOperand = "";
-        previousOperand = "";
-        operation = "";
-        notifyUI();
+        this.currentOperand = "";
+        this.previousOperand = "";
+        this.operation = "";
+        this.updateDisplay();
     }
-    
+
     public void appendNumber(String number) {
-        // Prevent multiple zeros
-        if (currentOperand.equals("0") && number.equals("0")) {
+        if (this.currentOperand.equals("0") && number.equals("0")) {
             return;
         }
-        
-        // Prevent multiple decimal points
-        if (number.equals(".") && currentOperand.contains(".")) {
+
+        if (number.equals(".") && this.currentOperand.contains(".")) {
             return;
         }
-        
-        // Replace initial zero with new number
-        if (currentOperand.equals("0") && !number.equals(".")) {
-            currentOperand = number;
-        } else {
-            currentOperand += number;
+
+        if (this.currentOperand.equals("0")
+                && !number.equals("0")
+                && !number.equals(".")) {
+            this.currentOperand = "";
         }
-        
-        notifyUI();
+
+        this.currentOperand += number;
+        this.updateDisplay();
     }
-    
-    public void deleteLastDigit() {
-        if (!currentOperand.isEmpty()) {
-            currentOperand = currentOperand.substring(0, currentOperand.length() - 1);
-            notifyUI();
+
+    public void chooseOperation(String operation) {
+        if (this.currentOperand.equals("") && !this.previousOperand.equals("")) {
+            this.operation = operation;
+            this.updateDisplay();
         }
-    }
-    
-    public void setOperation(String op) {
-        if (currentOperand.isEmpty() && !previousOperand.isEmpty()) {
-            operation = op;
-            notifyUI();
+        if (this.currentOperand.equals("")) {
             return;
         }
-        
-        if (currentOperand.isEmpty()) {
-            return;
+
+        if (!this.previousOperand.equals("")) {
+            this.compute();
         }
-        
-        // Chain operations
-        if (!previousOperand.isEmpty()) {
-            compute();
-        }
-        
-        operation = op;
-        previousOperand = currentOperand;
-        currentOperand = "";
-        notifyUI();
+
+        this.operation = operation;
+        this.previousOperand = this.currentOperand;
+        this.currentOperand = "";
+        this.updateDisplay();
     }
-    
+
     public void compute() {
-        if (currentOperand.isEmpty() || previousOperand.isEmpty() || operation.isEmpty()) {
+        float computation;
+        if (this.currentOperand.equals("") || this.previousOperand.equals("")) {
             return;
         }
-        
-        try {
-            float curr = Float.parseFloat(currentOperand);
-            float prev = Float.parseFloat(previousOperand);
-            float result = 0;
-            
-            switch (operation) {
-                case "+" -> result = prev + curr;
-                case "-" -> result = prev - curr;
-                case "×" -> result = prev * curr;
-                case "÷" -> {
-                    if (curr == 0) {
-                        handleError("Cannot divide by zero");
-                        return;
-                    }
-                    result = prev / curr;
-                }
-                default -> {
+
+        float curr = Float.parseFloat(this.currentOperand);
+        float prev = Float.parseFloat(this.previousOperand);
+        if (Float.isNaN(curr) || Float.isNaN(prev)) {
+            return;
+        }
+
+        switch (this.operation) {
+            case "+" ->
+                computation = prev + curr;
+            case "-" ->
+                computation = prev - curr;
+            case "×" ->
+                computation = prev * curr;
+            case "÷" -> {
+                if (curr == 0) {
+                    this.clear();
+                    this.currentOperand = "Error";
                     return;
                 }
+                computation = prev / curr;
             }
-            
-            currentOperand = formatResult(result);
-            previousOperand = "";
-            operation = "";
-            notifyUI();
-            
-        } catch (NumberFormatException e) {
-            handleError("Invalid input");
-        }
-    }
-    
-    public void toggleSign() {
-        if (!currentOperand.isEmpty() && !currentOperand.equals("0")) {
-            try {
-                float value = -Float.parseFloat(currentOperand);
-                currentOperand = formatResult(value);
-                notifyUI();
-            } catch (NumberFormatException e) {
-                // Ignore invalid input
+            default -> {
+                return;
             }
         }
-<<<<<<< HEAD
 
         this.currentOperand = (computation - (int) computation) != 0 ? Float.toString(computation)
                 : Integer.toString((int) computation);
         this.previousOperand = "";
         this.operation = "";
-=======
->>>>>>> 88c97ac160273971bf3cc07d8274c910363861cf
     }
-    
-    public void addDecimalPoint() {
-        if (currentOperand.isEmpty()) {
-            currentOperand = "0.";
-        } else if (!currentOperand.contains(".")) {
-            currentOperand += ".";
-        }
-        notifyUI();
+
+    public void updateDisplay() {
+        current.setText(this.currentOperand);
+        previous.setText(previousOperand + " " + this.operation);
     }
-<<<<<<< HEAD
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
@@ -783,41 +707,3 @@ public class Calculator {
     // End of variables declaration//GEN-END:variables
 
 }
-=======
-    
-    // Helper methods
-    private String formatResult(float value) {
-        if (value == (int) value) {
-            return Integer.toString((int) value);
-        } else {
-            return Float.toString(value);
-        }
-    }
-    
-    private void handleError(String message) {
-        clear();
-        currentOperand = "Error";
-        notifyUI();
-        // Reset after showing error
-        javax.swing.Timer timer = new javax.swing.Timer(1500, e -> clear());
-        timer.setRepeats(false);
-        timer.start();
-    }
-    
-    private void notifyUI() {
-        if (ui != null) {
-            ui.updateDisplay(currentOperand, 
-                           previousOperand + (operation.isEmpty() ? "" : " " + operation));
-        }
-    }
-    
-    // Getters for display (if UI needs direct access)
-    public String getCurrentDisplay() {
-        return currentOperand;
-    }
-    
-    public String getPreviousDisplay() {
-        return previousOperand + (operation.isEmpty() ? "" : " " + operation);
-    }
-}
->>>>>>> 88c97ac160273971bf3cc07d8274c910363861cf
