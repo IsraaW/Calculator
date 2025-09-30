@@ -1,16 +1,15 @@
 package Calc;
 
-/**
- *
- * @author youcefhmd
- */
+import javax.swing.SwingUtilities;
 
 public class App {
-
     public static void main(String[] args) {
-        Calculator calc = Calculator.getInstance();
-        calc.setVisible(true);
-
+        SwingUtilities.invokeLater(() -> {
+            CalculatorBuilder builder = new StandardCalculatorBuilder();
+            CalculatorEngineer engineer = new CalculatorEngineer(builder);
+            engineer.makeCalculator(); 
+            Calculator calc = engineer.getCalculator();
+            calc.setVisible(true);
+        });
     }
-
 }

@@ -4,42 +4,46 @@ import java.awt.Color;
 import java.awt.event.*;
 import javax.swing.JButton;
 
-/**
- *
- * @author youcefhmd
- */
 public final class Calculator extends javax.swing.JFrame {
-private static Calculator instance = null;
-    
+
     private String currentOperand;
     private String previousOperand;
     private String operation;
-
     private int x, y;
 
-    private Calculator() {
+    Calculator() {
+        // Initialize components first
         initComponents();
-        getContentPane().setSize(400, 700);
+        // Initialize strings
+        currentOperand = "";
+        previousOperand = "";
+        operation = "";
+    }
+
+    void setContentSize(int width, int height) {
+        getContentPane().setSize(width, height);
+    }
+
+    void initializeDisplay() {
+        // Now safe to call clear() because components exist
         this.clear();
+    }
+
+    void setupEventHandlers() {
         this.addEvents();
     }
-public static Calculator getInstance() {
-        if (instance == null) {
-            instance = new Calculator();
-        }
-        return instance;
-    }
+
     public void addEvents() {
         JButton[] btns = {
-            btn0, btn1, btn2, btn3, btn4,
-            btn5, btn6, btn7, btn8, btn9,
-            btnDiv, btnDot, btnEqual, btnDel,
-            btnMult, btnPlus, btnPlusSub, btnSub, btnClear
+                btn0, btn1, btn2, btn3, btn4,
+                btn5, btn6, btn7, btn8, btn9,
+                btnDiv, btnDot, btnEqual, btnDel,
+                btnMult, btnPlus, btnPlusSub, btnSub, btnClear
         };
 
         JButton[] numbers = {
-            btn0, btn1, btn2, btn3, btn4,
-            btn5, btn6, btn7, btn8, btn9
+                btn0, btn1, btn2, btn3, btn4,
+                btn5, btn6, btn7, btn8, btn9
         };
 
         for (JButton number : numbers) {
@@ -59,7 +63,8 @@ public static Calculator getInstance() {
                 @Override
                 public void mouseExited(MouseEvent e) {
                     Object b = e.getSource();
-                    if (b == btnDiv || b == btnEqual || b == btnDel || b == btnMult || b == btnSub || b == btnPlus || b == btnClear) {
+                    if (b == btnDiv || b == btnEqual || b == btnDel || b == btnMult || b == btnSub || b == btnPlus
+                            || b == btnClear) {
                         ((JButton) b).setBackground(new Color(41, 39, 44));
                     } else {
                         ((JButton) b).setBackground(new Color(21, 20, 22));
@@ -146,7 +151,8 @@ public static Calculator getInstance() {
             }
         }
 
-        this.currentOperand = (computation - (int) computation) != 0 ? Float.toString(computation) : Integer.toString((int) computation);
+        this.currentOperand = (computation - (int) computation) != 0 ? Float.toString(computation)
+                : Integer.toString((int) computation);
         this.previousOperand = "";
         this.operation = "";
     }
@@ -157,7 +163,8 @@ public static Calculator getInstance() {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         app = new javax.swing.JPanel();
@@ -498,6 +505,7 @@ public static Calculator getInstance() {
         });
         buttonsPanel.add(btnEqual, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 300, -1, -1));
 
+        // <-- fixed: separate add of buttonsPanel (this was merged before)
         app.add(buttonsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 320, 390));
 
         titleBar.setBackground(new java.awt.Color(21, 20, 22));
@@ -531,6 +539,7 @@ public static Calculator getInstance() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnMiniMouseEntered(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnMiniMouseExited(evt);
             }
@@ -553,6 +562,7 @@ public static Calculator getInstance() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnCloseMouseEntered(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnCloseMouseExited(evt);
             }
@@ -569,101 +579,101 @@ public static Calculator getInstance() {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(app, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(app, javax.swing.GroupLayout.PREFERRED_SIZE, 320,
+                                javax.swing.GroupLayout.PREFERRED_SIZE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(app, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(app, javax.swing.GroupLayout.PREFERRED_SIZE, 530,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnDotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDotActionPerformed
+    private void btnDotActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDotActionPerformed
         appendNumber((this.currentOperand.isBlank() ? "0." : "."));
-    }//GEN-LAST:event_btnDotActionPerformed
+    }// GEN-LAST:event_btnDotActionPerformed
 
-    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnClearActionPerformed
         clear();
-    }//GEN-LAST:event_btnClearActionPerformed
+    }// GEN-LAST:event_btnClearActionPerformed
 
-    private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
+    private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDelActionPerformed
         if (!this.currentOperand.equals("")) {
             this.currentOperand = this.currentOperand.substring(0, this.currentOperand.length() - 1);
             this.updateDisplay();
         }
-    }//GEN-LAST:event_btnDelActionPerformed
+    }// GEN-LAST:event_btnDelActionPerformed
 
-    private void btnPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlusActionPerformed
+    private void btnPlusActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPlusActionPerformed
         chooseOperation("+");
-    }//GEN-LAST:event_btnPlusActionPerformed
+    }// GEN-LAST:event_btnPlusActionPerformed
 
-    private void btnMultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultActionPerformed
+    private void btnMultActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMultActionPerformed
         chooseOperation("×");
-    }//GEN-LAST:event_btnMultActionPerformed
+    }// GEN-LAST:event_btnMultActionPerformed
 
-    private void btnSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubActionPerformed
+    private void btnSubActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSubActionPerformed
         chooseOperation("-");
-    }//GEN-LAST:event_btnSubActionPerformed
+    }// GEN-LAST:event_btnSubActionPerformed
 
-    private void btnDivActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDivActionPerformed
+    private void btnDivActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDivActionPerformed
         chooseOperation("÷");
-    }//GEN-LAST:event_btnDivActionPerformed
+    }// GEN-LAST:event_btnDivActionPerformed
 
-    private void btnEqualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEqualActionPerformed
+    private void btnEqualActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnEqualActionPerformed
         this.compute();
         this.updateDisplay();
         if (this.currentOperand.equals("Error"))
             this.currentOperand = "";
-    }//GEN-LAST:event_btnEqualActionPerformed
+    }// GEN-LAST:event_btnEqualActionPerformed
 
-    private void btnPlusSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlusSubActionPerformed
+    private void btnPlusSubActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPlusSubActionPerformed
         if (!this.currentOperand.isBlank()) {
             float tmp = -Float.parseFloat(this.currentOperand);
             this.currentOperand = (tmp - (int) tmp) != 0 ? Float.toString(tmp) : Integer.toString((int) tmp);
             this.updateDisplay();
         }
-    }//GEN-LAST:event_btnPlusSubActionPerformed
+    }// GEN-LAST:event_btnPlusSubActionPerformed
 
-    private void btnCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseEntered
+    private void btnCloseMouseEntered(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btnCloseMouseEntered
         btnClose.setBackground(new Color(255, 75, 75));
         btnClose.setForeground(new Color(31, 30, 33));
-    }//GEN-LAST:event_btnCloseMouseEntered
+    }// GEN-LAST:event_btnCloseMouseEntered
 
-    private void btnCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseExited
-        btnClose.setBackground(new Color(21,20,22));
+    private void btnCloseMouseExited(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btnCloseMouseExited
+        btnClose.setBackground(new Color(21, 20, 22));
         btnClose.setForeground(Color.WHITE);
-    }//GEN-LAST:event_btnCloseMouseExited
+    }// GEN-LAST:event_btnCloseMouseExited
 
-    private void btnMiniMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMiniMouseEntered
+    private void btnMiniMouseEntered(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btnMiniMouseEntered
         btnMini.setBackground(new Color(73, 69, 78));
-    }//GEN-LAST:event_btnMiniMouseEntered
+    }// GEN-LAST:event_btnMiniMouseEntered
 
-    private void btnMiniMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMiniMouseExited
-        btnMini.setBackground(new Color(21,20,22));
-    }//GEN-LAST:event_btnMiniMouseExited
+    private void btnMiniMouseExited(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btnMiniMouseExited
+        btnMini.setBackground(new Color(21, 20, 22));
+    }// GEN-LAST:event_btnMiniMouseExited
 
-    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCloseActionPerformed
         System.exit(0);
-    }//GEN-LAST:event_btnCloseActionPerformed
+    }// GEN-LAST:event_btnCloseActionPerformed
 
-    private void btnMiniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMiniActionPerformed
+    private void btnMiniActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnMiniActionPerformed
         setState(Calculator.ICONIFIED);
-    }//GEN-LAST:event_btnMiniActionPerformed
+    }// GEN-LAST:event_btnMiniActionPerformed
 
-    private void titleBarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_titleBarMousePressed
+    private void titleBarMousePressed(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_titleBarMousePressed
         x = evt.getX();
         y = evt.getY();
-    }//GEN-LAST:event_titleBarMousePressed
+    }// GEN-LAST:event_titleBarMousePressed
 
-    private void titleBarMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_titleBarMouseDragged
+    private void titleBarMouseDragged(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_titleBarMouseDragged
         int xx = evt.getXOnScreen();
         int yy = evt.getYOnScreen();
         this.setLocation(xx - x, yy - y);
-    }//GEN-LAST:event_titleBarMouseDragged
+    }// GEN-LAST:event_titleBarMouseDragged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel app;
@@ -695,4 +705,5 @@ public static Calculator getInstance() {
     private javax.swing.JLabel title;
     private javax.swing.JPanel titleBar;
     // End of variables declaration//GEN-END:variables
+
 }
